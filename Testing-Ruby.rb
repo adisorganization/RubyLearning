@@ -33,6 +33,14 @@ $toolsP = {
 $tools = [30, 90, 200, 800]
 $helmets = [20, 80, 125, 400, 700]
 
+#Robot health
+$player_health = 100
+$ai_robo_health = 100
+
+#keep track of robot life state
+$player_is_alive = true
+$ai_is_alive = true
+
 class Robot
 
 
@@ -102,6 +110,42 @@ class Robot
       puts "The tool the AI has is god shield."
     end
   end
+
+def attack_ai()
+  if $player_is_alive && $ai_is_alive
+  attack = rand(1..20)
+  $ai_robo_health -= attack
+  puts "Player has attacked the opposing robot and now, its HP is #{$ai_robo_health}"
+  else
+    return
+  end
+  if $ai_robo_health < 0
+    puts "Player has won the battle"
+    $ai_is_alive = false
+    return
+  else
+    #If AI is not destroyed, it shall attack player
+    attack_player()
+  end
+end
+
+def attack_player
+  if $ai_is_alive && $player_is_alive
+    attack = rand(1..25)
+    $player_health -= attack
+    puts "The opposing robot has attacked and now your HP is #{$player_health}"
+  else
+    return
+  end
+    if $player_health < 0
+      puts "You have lost the battle"
+      $player_is_alive = false
+      return
+    else
+      attack_ai()
+  end
+end
+
 end #class
 
 
@@ -115,3 +159,6 @@ nickRobot.choose_tool()
 puts "Now the CPU opponent"
 adiRobot.choose_helmet_ai()
 adiRobot.choose_tool_ai()
+
+#Once robots are setup, they must attack
+nickRobot.attack_ai()
