@@ -3,7 +3,7 @@ class Robot
   $helmets = [20, 80, 125, 400, 700]
 
 
-def ChooseHelmet()
+def ChooseHelmetAi()
   random_helmet = rand(4)
   new_helmet = $helmets[random_helmet]
   if new_helmet == $helmets[0]
@@ -19,7 +19,7 @@ def ChooseHelmet()
 end
 end
 
-def ChooseTool()
+def ChooseToolAi()
   random_tool = rand(3)
   new_tool = $tools[random_tool]
   if new_tool == $tools[0]
@@ -37,5 +37,5 @@ end
 
 nickRobot = Robot.new
 
-nickRobot.ChooseHelmet()
-nickRobot.ChooseTool()
+nickRobot.ChooseHelmetAi()
+nickRobot.ChooseToolAi()
