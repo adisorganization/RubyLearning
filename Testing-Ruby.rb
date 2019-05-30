@@ -3,14 +3,14 @@ $helmet_options = [
   ":plastic is $20",
   ":bucket is $80",
   ":worldWar is $125",
-  ":angel is 400",
-  ":god is 700"
+  ":angel is $400",
+  ":god is $700"
 ]
 $tool_options = [
-  ":screwdriver is 30",
-  ":woodenShieldis 90",
-  ":machineGun is 200",
-  ":godShield is 800"
+  ":screwdriver is $30",
+  ":woodenShieldis $90",
+  ":machineGun is $200",
+  ":godShield is $800"
 ]
 
 $player_helmets = {
@@ -41,6 +41,17 @@ $ai_robo_health = 100
 $player_is_alive = true
 $ai_is_alive = true
 
+$minor_damage = 3
+$dramatic_damage = 10
+
+$worldWar_helmet_isselected = false
+$angel_helmet_isselected = false
+
+$worldWar_ai_helmet_isselected = false
+$angel_ai_helmet_isselected = false
+
+$attack
+
 class Robot
 
 
@@ -53,6 +64,11 @@ class Robot
     @player_helmet = gets.chomp.to_sym
     #Assign helmet value
     @player_helmet = $player_helmets[@player_helmet]
+    if @player_helmet == $player_helmets[:worldWar]
+      worldWar_helmet_isselected = true
+    elsif @player_helmet == $player_helmets[:angel]
+      angel_helmet_isselected = true
+    end
     #Deduct helmet value to current credits
     $current_credits -= @player_helmet
     puts "You now have #{$current_credits} credits left"
@@ -91,7 +107,9 @@ class Robot
     elsif new_helmet == $helmets[2]
       puts "The helmet the AI has is worldwar."
     elsif new_helmet == $helmets[3]
+      worldWar_ai_helmet_isselected = true
       puts "The helmet the AI has is angel."
+      angel_ai_helmet_isselected = true
     elsif new_helmet == $helmets[4]
       puts "The helmet the AI has is god."
     end
@@ -111,12 +129,32 @@ class Robot
     end
   end
 
+def attack_mod()
+  if $worldWar_helmet_isselected
+    $attack = rand(1..20) + $minor_damage
+    $ai_robo_health -= $attack
+  elsif $angel_helmet_isselected
+    $attack = rand(1..20) + $dramatic_damage
+    $ai_robo_health -= $attack
+  else attack = rand(1..20)
+    $ai_robo_health -= $attack
+  end
+end
+
 def attack_ai()
   if $player_is_alive && $ai_is_alive
-  attack = rand(1..20)
-  $ai_robo_health -= attack
+    if $worldWar_helmet_isselected
+      $attack = rand(1..20) + $minor_damage
+      $ai_robo_health -= $attack
+    elsif $angel_helmet_isselected
+      $attack = rand(1..20) + $dramatic_damage
+      $ai_robo_health -= $attack
+    else $attack = rand(1..20)
+      $ai_robo_health -= $attack
+    end
+
   puts "Player has attacked the opposing robot and now, its HP is #{$ai_robo_health}"
-  else
+else
     return
   end
   if $ai_robo_health < 0
@@ -131,8 +169,15 @@ end
 
 def attack_player
   if $ai_is_alive && $player_is_alive
-    attack = rand(1..25)
-    $player_health -= attack
+    if $worldWar_ai_helmet_isselected
+      $attack = rand(1..20) + $minor_damage
+      $player_health -= $attack
+    elsif $angel_ai_helmet_isselected
+      $attack = rand(1..20) + $dramatic_damage
+      $player_health -= $attack
+    else $attack = rand(1..20)
+      $player_health -= $attack
+    end
     puts "The opposing robot has attacked and now your HP is #{$player_health}"
   else
     return
