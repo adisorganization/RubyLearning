@@ -1,53 +1,9 @@
-
-# class Robots
-#   @@maxHealth
-#   @@currentHealth
-#   def self.Attack()
-#     attack = rand(1..20)
-#     currentHealth -= attack
-#   end
-#
-#   def self.Health(tempHealth)
-#     maxHealth = tempHealth
-#     currentHealth = maxHealth
-#     puts currentHealth
-#     if currentHealth <= 0
-#       puts "Robot has died, because his battery has reached #{currentHealth}"
-#     else
-#       Attack()
-#       puts "Robot has just attacked"
-#     end
-#   end
-# end
-#
-#   robot1 = Robots.new
-#   robot2 = Robots.new
-#
-#   robot1.Health(200)
-#   robot1.Attack
-#
-#   robot2.Health(300)
-#   robot2.Attack
-#
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 class Robot
+
+$current_credits = 1000
 $helmet_options = [":plastic is $20", ":bucket is $80", ":worldWar is $125",":angel is 400",":god is 700"]
 $tool_options = [":screwdriver is 30",":woodenShieldis 90",":machineGun is 200",":godShield is 800"]
+
 $helmets = {
 :plastic => 20,
 :bucket => 80,
@@ -59,30 +15,42 @@ $helmets = {
 def ChooseHelmet()
 @player_helmet
 puts "Choose your robot's helmet"
+#Display all helmet options to user
 puts $helmet_options
 puts ""
 @player_helmet = gets.chomp.to_sym
+#Assign helmet value
 @player_helmet = $helmets[@player_helmet]
-puts @player_helmet
+#Deduct helmet value to current credits
+$current_credits -= @player_helmet
+puts "You now have #{$current_credits} credits left"
 return @player_helmet
 end
 
 $tools = {
-"screwdriver" => 30,
-"woodenShield" => 90,
-"machineGun" => 200,
-"godShield" => 800,
+:screwdriver => 30,
+:woodenShield => 90,
+:machineGun => 200,
+:godShield => 800,
 
 }
 
 def ChooseTool
+  $credit_checkpoint = $current_credits
 @player_tool
 puts "Now choose your tool for battle"
 puts $tool_options
 puts ""
-@player_tool = gets.chomp
+@player_tool = gets.chomp.to_sym
 @player_tool = $tools[@player_tool]
-puts @player_tool
+$current_credits -= @player_tool
+#If the user does not have enough credits to purchase the item, ask to purchase another
+if $current_credits < 0
+  puts "You don't have enough credits to make the purchase. Try something else"
+  $current_credits = $credit_checkpoint
+ return ChooseTool()
+end
+puts "You now have #{$current_credits} credits left"
 return
 
 end
@@ -90,6 +58,8 @@ end
 end
 
 nickRobot = Robot.new
-
+puts "Welcome warrior, you have been given 1000 credits"
+puts ""
 nickRobot.ChooseHelmet()
+puts ""
 nickRobot.ChooseTool()
