@@ -1,81 +1,117 @@
+$current_credits = 1000
+$helmet_options = [
+  ":plastic is $20",
+  ":bucket is $80",
+  ":worldWar is $125",
+  ":angel is 400",
+  ":god is 700"
+]
+$tool_options = [
+  ":screwdriver is 30",
+  ":woodenShieldis 90",
+  ":machineGun is 200",
+  ":godShield is 800"
+]
 
-# class Robots
-#   @@maxHealth
-#   @@currentHealth
-#   def self.Attack()
-#     attack = rand(1..20)
-#     currentHealth -= attack
-#   end
-#
-#   def self.Health(tempHealth)
-#     maxHealth = tempHealth
-#     currentHealth = maxHealth
-#     puts currentHealth
-#     if currentHealth <= 0
-#       puts "Robot has died, because his battery has reached #{currentHealth}"
-#     else
-#       Attack()
-#       puts "Robot has just attacked"
-#     end
-#   end
-# end
-#
-#   robot1 = Robots.new
-#   robot2 = Robots.new
-#
-#   robot1.Health(200)
-#   robot1.Attack
-#
-#   robot2.Health(300)
-#   robot2.Attack
-$robot1_health = 100
-$robot2_health = 100
-$dead = 0
+$player_helmets = {
+:plastic => 20,
+:bucket => 80,
+:worldWar => 125,
+:angel => 400,
+:god => 700,
 
-$can_keep_attacking1 = true
-$can_keep_attacking2 = true
-$robot1_died = false
-$robot2_died = false
+}
+
+$toolsP = {
+:screwdriver => 30,
+:woodenShield => 90,
+:machineGun => 200,
+:godShield => 800,
+
+}
+
+$tools = [30, 90, 200, 800]
+$helmets = [20, 80, 125, 400, 700]
+
+class Robot
 
 
-def Robot1()
-  if !$robot1_died && !$robot2_died
-  #Set a random attack
-  attack = rand(1..20)
-  #Opposing robot loses health
-  $robot2_health -= attack
-  puts "Robo 2 health is #{$robot2_health}"
-else
-  return
-end
-  #Destroy robot if health is too low. else keep attacking
-  if $robot2_health < $dead
-    $can_keep_attacking2 = false
-    $robot2_died = true
-    puts "Target2 has been eliminated and robot1 wins"
-    return
-  elsif $robot2_health > $dead && $can_keep_attacking2
-    return Robot2()
+  def choose_helmet
+    @player_helmet
+    puts "Choose your robot's helmet"
+    #Display all helmet options to user
+    puts $helmet_options
+    puts ""
+    @player_helmet = gets.chomp.to_sym
+    #Assign helmet value
+    @player_helmet = $player_helmets[@player_helmet]
+    #Deduct helmet value to current credits
+    $current_credits -= @player_helmet
+    puts "You now have #{$current_credits} credits left"
+    return @player_helmet
   end
-end
 
-def Robot2()
-  if !$robot2_died && !$robot1_died
-  attack = rand(1..25)
-  $robot1_health -= attack
-  puts "Robo 1 health is #{$robot1_health}"
-else
-  return
-end
-  if $robot1_health < $dead
-    $can_keep_attacking1 = false
-    $robot1_died = true
-    puts "Target1 has been eliminated and robot 2 wins"
-   return
-  elsif $robot1_health > $dead && $can_keep_attacking1
-    return Robot1()
+
+
+  def choose_tool
+    $credit_checkpoint = $current_credits
+    @player_tool
+    puts "Now choose your tool for battle"
+    puts $tool_options
+    puts ""
+    @player_tool = gets.chomp.to_sym
+    @player_tool = $toolsP[@player_tool]
+    $current_credits -= @player_tool
+    #If the user does not have enough credits to purchase the item, ask to purchase another
+    if $current_credits < 0
+      puts "You don't have enough credits to make the purchase. Try something else"
+      $current_credits = $credit_checkpoint
+      choose_tool()
+    end
+    puts "You now have #{$current_credits} credits left"
   end
-end
 
-Robot1()
-Robot2()
+
+
+  def choose_helmet_ai()
+    random_helmet = rand(4)
+    new_helmet = $helmets[random_helmet]
+    if new_helmet == $helmets[0]
+      puts "The helmet the AI has is plastic."
+    elsif new_helmet == $helmets[1]
+      puts "The helmet the AI has is bucket."
+    elsif new_helmet == $helmets[2]
+      puts "The helmet the AI has is worldwar."
+    elsif new_helmet == $helmets[3]
+      puts "The helmet the AI has is angel."
+    elsif new_helmet == $helmets[4]
+      puts "The helmet the AI has is god."
+    end
+  end
+
+  def choose_tool_ai()
+    random_tool = rand(3)
+    new_tool = $tools[random_tool]
+    if new_tool == $tools[0]
+      puts "The tool the AI has is a screwdriver."
+    elsif new_tool == $tools[1]
+      puts "The tool the AI has is a wooden shield."
+    elsif new_tool == $tools[2]
+      puts "The tool the AI has is a machine gun."
+    elsif new_tool == $tools[3]
+      puts "The tool the AI has is god shield."
+    end
+  end
+end #class
+
+
+nickRobot = Robot.new
+adiRobot = Robot.new
+puts "Welcome warrior, you have been given 1000 credits /n"
+
+nickRobot.choose_helmet()
+puts ""
+nickRobot.choose_tool()
+puts "Now the CPU opponent"
+adiRobot.choose_helmet_ai()
+adiRobot.choose_tool_ai()
