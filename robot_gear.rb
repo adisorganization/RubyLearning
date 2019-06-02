@@ -48,28 +48,17 @@ $minor_health_buff = 25
 $medium_health_buff = 50
 $major_health_buff = 100
 
-$plastic_helmet_isslected = false
-$bucket_helmet_isselected = false
-$worldWar_helmet_isselected = false
-$angel_helmet_isselected = false
-$god_helmet_isselected = false
+$plastic_helmet_isslected_ai = false
+$bucket_helmet_isselected_ai = false
+$worldWar_helmet_isselected_ai = false
+$angel_helmet_isselected_ai = false
+$god_helmet_isselected_ai = false
 
-$screwdriver_isselected = false
-$wooden_shield_isselected = false
-$machine_gun_isselected = false
-$godShield_isselected = false
+$screwdriver_isselected_ai = false
+$wooden_shield_isselected_ai = false
+$machine_gun_isselected_ai = false
+$godShield_isselected_ai = false
 
-$plastic_ai_helmet_isslected = false
-$bucket_ai_helmet_isselected = false
-$worldWar_ai_helmet_isselected = false
-$angel_ai_helmet_isselected = false
-$god_ai_helmet_isselected = false
-
-$screwdriver_ai_isselected = false
-$wooden_shield_ai_isselected = false
-$machine_gun_ai_isselected = false
-$godShield_ai_isselected = false
-$attack
 
 class Robot
 
