@@ -76,6 +76,7 @@ module RunNextBattle
 
     puts "Player has attacked the opposing robot and now, its HP is #{$ai_robo_health}"
    else
+     puts "can not attack"
       return
     end
       if $ai_robo_health < 0

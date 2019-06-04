@@ -1,4 +1,5 @@
 require "pry"
+#require_relative "./engine/game"
 require_relative "./engine/run_next_battle"
 require_relative "./engine/store"
 require_relative "./engine/robot"
@@ -15,7 +16,7 @@ $helmet_options = [
 ]
 $tool_options = [
   ":screwdriver is $30",
-  ":woodenShieldis $90",
+  ":woodenShield is $90",
   ":machineGun is $200",
   ":godShield is $800"
 ]
@@ -23,15 +24,15 @@ $tool_options = [
 $player_helmets = {
 :plastic => 20,
 :bucket => 80,
-:worldWar => 125,
-:angel => 400,
+:worldWar => 120,
+:angel => 420,
 :god => 700,
 
 }
 
 $toolsP = {
-:screwdriver => 30,
-:woodenShield => 90,
+:screwdriver => 40,
+:woodenShield => 100,
 :machineGun => 200,
 :godShield => 800,
 
@@ -39,6 +40,15 @@ $toolsP = {
 
 $tools = [30, 90, 200, 800]
 $helmets = [20, 80, 125, 400, 700]
+
+#Damaged part
+$damaged = rand(1..2)
+#Damaged Once
+$helmet_isdamaged = false
+$tool_isdamaged = false
+#Damaged twice
+$helmet_isdestroyed = false
+$tool_isdestroyed = false
 
 #Robot health
 $player_health = 100
@@ -85,15 +95,10 @@ $attack = rand(1..20)
 
 
 #RUN PROGRAM
-nickRobot = Robot.new
-
-puts "Welcome warrior, you have been given 1000 credits "
-puts ""
-nickRobot.choose_helmet()
-puts ""
-nickRobot.choose_tool()
-
-
+# game = Game.new
+# game.start
+robot = Robot.new
+robot.choose_helmet
 
 
 #Once robots are setup, they must attack

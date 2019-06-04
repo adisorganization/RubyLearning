@@ -1,3 +1,5 @@
+require "stringio"
+require_relative "run_next_battle"
 class Robot
 
   #This will be the link between both classes
@@ -5,25 +7,25 @@ class Robot
 
 
   def choose_helmet
-    @player_helmet
+
     puts "Choose your robot's helmet"
     #Display all helmet options to user
     puts $helmet_options
     puts ""
-    @player_helmet = gets.chomp.to_sym
+    $player_helmet = $stdin.gets.chomp.to_sym
     #Assign helmet value
-    @player_helmet = $player_helmets[@player_helmet]
-    if @player_helmet == $player_helmets[:plastic]
+    $player_helmet = $player_helmets[$player_helmet]
+    if $player_helmet == $player_helmets[:plastic]
       $plastic_helmet_isslected = true
       $player_health += $minor_health
-    elsif @player_helmet == $player_helmets[:bucket]
+    elsif $player_helmet == $player_helmets[:bucket]
       $bucket_helmet_isselected = true
       $player_health += $medium_health
-    elsif @player_helmet == $player_helmets[:worldWar]
+    elsif $player_helmet == $player_helmets[:worldWar]
       $worldWar_helmet_isselected = true
-    elsif @player_helmet == $player_helmets[:angel]
+    elsif $player_helmet == $player_helmets[:angel]
       $angel_helmet_isselected = true
-    elsif @player_helmet == $player_helmets[:god]
+    elsif $player_helmet == $player_helmets[:god]
       $god_helmet_isselected = true
       $player_health += $major_health
     else
@@ -31,9 +33,10 @@ class Robot
       choose_helmet()
     end
     #Deduct helmet value to current credits
-    $current_credits -= @player_helmet
-    puts "You now have #{$current_credits} credits left"
-    return @player_helmet
+    $current_credits -= $player_helmet
+    puts "You now have #{$current_credits} credits left. This is weird"
+    puts ""
+    choose_tool()
   end
 
 
@@ -43,7 +46,7 @@ class Robot
       puts "Now choose your tool for battle"
       puts $tool_options
       puts ""
-      @player_tool = gets.chomp.to_sym
+      @player_tool = $stdin.gets.chomp.to_sym
       @player_tool = $toolsP[@player_tool]
       if @player_tool == $toolsP[:screwdriver]
         $screwdriver_isselected = true
@@ -58,7 +61,7 @@ class Robot
       else
         puts "Sorry I didn't get that, try again"
         $current_credits = credit_checkpoint
-        @player_tool = ""
+
         choose_tool()
       end
       $current_credits -= @player_tool
@@ -74,7 +77,7 @@ class Robot
         puts "Now the CPU opponent"
         choose_ai_armor()
         puts "Are you ready for battle?"
-        answer = gets.chomp
+        answer = $stdin.gets.chomp
           if answer == "yes" || answer == "Yes"
           battle_it_out()
           else
@@ -82,6 +85,7 @@ class Robot
           choose_tool()
           end
       end
+      return
     end
 
 
