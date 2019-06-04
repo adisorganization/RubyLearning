@@ -97,6 +97,7 @@ $attack = rand(1..20)
 #RUN PROGRAM
 # game = Game.new
 # game.start
+puts "Welcome warrior, you have #{$current_credits} credits\n"
 robot = Robot.new
 robot.choose_helmet
 

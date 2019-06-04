@@ -46,16 +46,16 @@ class Robot
       puts "Now choose your tool for battle"
       puts $tool_options
       puts ""
-      @player_tool = $stdin.gets.chomp.to_sym
-      @player_tool = $toolsP[@player_tool]
-      if @player_tool == $toolsP[:screwdriver]
+      $player_tool = $stdin.gets.chomp.to_sym
+      $player_tool = $toolsP[$player_tool]
+      if $player_tool == $toolsP[:screwdriver]
         $screwdriver_isselected = true
-      elsif @player_tool == $toolsP[:woodenShield]
+      elsif $player_tool == $toolsP[:woodenShield]
         $wooden_shield_isselected = true
         $player_health += $medium_health
-      elsif @player_tool == $toolsP[:machineGun]
+      elsif $player_tool == $toolsP[:machineGun]
         $machine_gun_isselected = true
-      elsif @player_tool == $toolsP[:godShield]
+      elsif $player_tool == $toolsP[:godShield]
         $godShield_isselected = true
         $player_health += $major_health
       else
@@ -64,7 +64,7 @@ class Robot
 
         choose_tool()
       end
-      $current_credits -= @player_tool
+      $current_credits -= $player_tool
       #If the user does not have enough credits to purchase the item, ask to purchase another
       if $current_credits < 0
         puts "You don't have enough credits to make the purchase. Try something else"
