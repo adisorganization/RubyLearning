@@ -89,6 +89,8 @@ class Store
       if response == "no" || response == "No"
         return
       else
+        check_helmet_condition()
+        check_tool_condition()
       RunNextBattle.choose_helmet_ai
       RunNextBattle.choose_tool_ai
       puts "Are you sure you are ready for battle?"
@@ -163,6 +165,7 @@ class Store
     answer = $stdin.gets.chomp
       if answer == "yes" || answer == "Yes"
         $current_credits += discount
+        $helmet_isdestroyed = false #No helmet, means nothing is destroyed
         puts "You currently have #{$current_credits} credits\n
         I would reccomend purchasing a new one for the next battle"
         #Player no longer has a helmet afeter selling
@@ -188,14 +191,14 @@ class Store
       if $screwdriver_isselected && $tool_isdamaged ||
          $wooden_shield_isselected && $tool_isdamaged ||
          $machine_gun_isselected && $tool_isdamaged ||
-         $godShield_isselected && $tool_isdamaged ||
+         $godShield_isselected && $tool_isdamaged
            @discount = $player_tool / 3
            puts "You could sell it for #{@discount}"
        elsif $screwdriver_isselected ||
              $wooden_shield_isselected ||
              $machine_gun_isselected ||
-             $godShield_isselected ||
-               discount = $player_tool / 2
+             $godShield_isselected
+               @discount = $player_tool / 2
                puts "You could sell it for #{@discount}"
        else
          puts "You don't carry a tool to sell at the moment\n"
@@ -205,6 +208,7 @@ class Store
         answer = $stdin.gets.chomp
             if answer == "yes" || answer == "Yes"
               $current_credits += @discount
+              $tool_isdestroyed = false #No tool means nothing is destroyed
               puts "You currently have #{$current_credits} credits\n
               I would reccomend purchasing a new one for the next battle"
               #Player no longer has a helmet afeter selling
@@ -254,7 +258,8 @@ class Store
            puts "I can't sell you a tool, unless you sell your current tool"
            open_shop()
        else
-         puts $tool_options + "\n"
+         puts $tool_options
+         puts ""
          puts "What tool would you like to buy? "
          new_tool()
          open_shop()
@@ -299,8 +304,34 @@ class Store
            $godShield_isselected = true
            $player_health += $major_health
          end
-   $current_credits -= new_helmet
+   $current_credits -= new_tool
    puts "Congratulations on your new #{answer} tool\n
     You now have #{$current_credits} credits\n"
    end #Method
+
+  def self.check_helmet_condition
+    if $helmet_isdestroyed
+      puts "You have no helmet"
+        $helmet_isdamaged = false
+        $plastic_helmet_isslected = false
+        $bucket_helmet_isselected = false
+        $worldWar_helmet_isselected = false
+        $angel_helmet_isselected = false
+        $god_helmet_isselected = false
+     end
+  end #Method
+
+
+ def self.check_tool_condition
+     if $tool_isdestroyed
+       puts "You have no tool"
+         $tool_isdamaged = false
+         $screwdriver_isselected = false
+         $wooden_shield_isselected = false
+         $machine_gun_isselected = false
+         $godShield_isselected = false
+      end
+   end #Method
+
+
   end #class

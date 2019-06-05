@@ -31,10 +31,10 @@ $player_helmets = {
 }
 
 $toolsP = {
-:screwdriver => 40,
-:woodenShield => 100,
-:machineGun => 200,
-:godShield => 800,
+:screwdriver => 30,
+:woodenShield => 120,
+:machineGun => 300,
+:godShield => 840,
 
 }
 
